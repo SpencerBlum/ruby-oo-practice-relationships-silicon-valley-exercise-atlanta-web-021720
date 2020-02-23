@@ -45,11 +45,6 @@ attr_accessor :name, :total_worth
         
     end
 
-
-
-
-    
-
 end
 
 
