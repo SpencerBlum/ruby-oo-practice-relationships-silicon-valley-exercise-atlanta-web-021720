@@ -30,20 +30,48 @@ class Startup
         return self.name
    end
 
-   def domains
-    newArray = Startup.all.map.select{|startups| startups.domain}
-    return newArray
+   def self.domains
+    Startup.all.map{|startups| startups.domain}
    end
 
+   def sign_contract(investment_type, amount_invested, venture_capitalist)
+        FundingRound.new(investment_type, amount_invested, venture_capitalist, self)
+   end
 
+   def funding_rounds
+     FundingRound.all.select{|el| el.startup == self}.length
+   end
+
+   def total_funds
+     newArray = FundingRound.all.select{|el| el.startup == self}
+     newArray.map{|el| el.investment}.sum
+
+   end
+
+     def investors
+          #extra .map to go into name of vc
+
+          FundingRound.all.select{|el| el.startup == self}.map{|el| el.venture_capitalist}.map{|el| el.name}.uniq
+     end
+
+     def big_investors
+           investors = FundingRound.all.select{|el| el.startup == self}.map{|el| el.venture_capitalist}.map{|el| el.name}.uniq
+          
+          #VentureCapitalist.tres_commas_club
+          #VentureCapitalist.tres_commas_club
+
+              # testArray = []
+          for i in 0...investors.length
+              newArray =  VentureCapitalist.tres_commas_club.select{|el| el == investors[i]}
+               i+= 1
+               #testArray.push(investors[i])
+          end
+          
+          newArray
+
+     end
+
+
+   
 end
 
-
-
-startup1 = Startup.new("Facebook","Zuck","Social Media")
-startup2 = Startup.new("Uber","Travis","Transportation")
-
-# startup1.name
-
-Startup.all
-binding.pry
